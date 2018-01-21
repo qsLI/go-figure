@@ -79,7 +79,10 @@ func main() {
 
 	fmt.Printf("sum of 1 to 100 = %d\n", sum(100))
 
-	sqrt(4)
+	result, e := sqrt(4)
+	fmt.Printf("result: sqrt of %d is %d, error=%s\n", 4, result, e)
+	result, e = sqrt(-4)
+	fmt.Printf("result: sqrt of %d is %d, error=%s\n", -4, result, e)
 
 	root := Sqrt4Newton(9.2)
 	fmt.Printf("root of 9.2 is %f", root)
@@ -192,11 +195,18 @@ Go 只有一种循环结构—— for 循环。
  /**
  if语句也不需要圆括号
   */
-func sqrt(x float64) string {
+
+  type ErrNegativeSqrt float64
+
+  func (e ErrNegativeSqrt) Error() string {
+  	return fmt.Sprintf("cannot Sqrt negative number: %f", float64(e))
+  }
+
+func sqrt(x float64) (float64, error) {
 	if x < 0 {
-		return sqrt(-x) + "i"
+		return -1, ErrNegativeSqrt(x)
 	}
-	return fmt.Sprint(math.Sqrt(x))
+	return math.Sqrt(x), nil
 }
 
 func pow(x, n, lim float64) float64 {
