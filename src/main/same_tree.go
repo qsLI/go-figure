@@ -22,10 +22,8 @@ func Same(t1 *tree.Tree, t2 *tree.Tree) bool {
 
 	ch1 := make(chan int, 10)
 	ch2 := make(chan int, 10)
-	Walk(t1, ch1)
-	Walk(t2, ch2)
-	close(ch1)
-	close(ch2)
+	Walker(t1, ch1)
+	Walker(t2, ch2)
 
 	for {
 		v1, ok1 := <-ch1
@@ -45,18 +43,21 @@ func Same(t1 *tree.Tree, t2 *tree.Tree) bool {
 func main() {
 	ch := make(chan int, 100)
 	t := tree.New(100)
-	go func() {
-		defer close(ch)
-		Walk(t, ch)
-	}()
+	go Walker(t, ch)
 	for v := range ch {
 		fmt.Println(v)
 	}
 
 	if Same(tree.New(90), tree.New(90)) {
 		fmt.Println("same tree")
-	 } else {
-	 	fmt.Println("not the same")
+	} else {
+		fmt.Println("not the same")
 	}
 
+}
+func Walker(t *tree.Tree, ch chan int) {
+	func() {
+		defer close(ch)
+		Walk(t, ch)
+	}()
 }
