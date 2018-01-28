@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-func int() {
+func init() {
 	fmt.Println("initing...")
 }
 
@@ -20,6 +20,7 @@ func main() {
 	fmt.Println("start goroutines")
 
 	go func() {
+		// 类似finally 会在最后执行
 		defer wg.Done()
 
 		for count := 0; count < 100; count++ {
