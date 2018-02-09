@@ -8,28 +8,28 @@ import (
 	"encoding/json"
 )
 
-var f interface{}
 
-type Speaker struct {
-	FirstName   string
-	LastName    string
-	Category    string
-	Title       string
-	Image       string
-	Link        string
-	Bio         string
-	Description string
-}
-
+const (
+	url = "https://gist.githubusercontent.com/qsLI/cbc4311d186f9e9c13d01261c5318d95/raw/4719a2d1c93fcb166da2bdace546dabd8135b4eb/test.json"
+)
+// curl -s "https://gist.githubusercontent.com/qsLI/cbc4311d186f9e9c13d01261c5318d95/raw/4719a2d1c93fcb166da2bdace546dabd8135b4eb/test.json" | gojson -name=Speakers
 type Speakers struct {
-	Speakers []Speaker `json: "speakers"`
+	Speaker []struct {
+		Bio         string `json:"bio"`
+		Category    string `json:"category"`
+		Description string `json:"description"`
+		Firstname   string `json:"firstname"`
+		Image       string `json:"image"`
+		Lastname    string `json:"lastname"`
+		Link        string `json:"link"`
+		Title       string `json:"title"`
+	} `json:"speakers"`
 }
 
 
 func main() {
-	uri := "https://gist.githubusercontent.com/qsLI/cbc4311d186f9e9c13d01261c5318d95/raw/af7bcff168eeaeb6eccc4f3f67bdc5410847e29f/test.json"
 
-	resp, err := http.Get(uri)
+	resp, err := http.Get(url)
 	if err != nil {
 		log.Println("ERROR:", err)
 		return
@@ -46,13 +46,18 @@ func main() {
 		fmt.Println("read response body error", e)
 		return
 	}
+	defer resp.Body.Close()
 
 	var speakers Speakers
 	json.Unmarshal(bytes, &speakers)
 
-	fmt.Println(speakers)
+	fmt.Println(len(speakers.Speaker))
 
-	testMarshal()
+	for _, speaker := range speakers.Speaker {
+		fmt.Printf("%s-%s\n", speaker.Firstname, speaker.Lastname)
+	}
+
+	//testMarshal()
 
 
 	//json.Unmarshal(bytes, &f)
@@ -76,19 +81,19 @@ func main() {
 
 }
 
-func testMarshal() {
-	var speakers Speakers
-	speaker := Speaker{
-		"kevein",
-		"Leo",
-		"dev",
-		"rd",
-		"http://test.jsp",
-		"http://test.jsp",
-		"",
-		"",
-	}
-	speakers.Speakers = []Speaker{speaker}
-	result, _ := json.Marshal(speakers)
-	fmt.Println(string(result))
-}
+//func testMarshal() {
+//	var speakers Speaker
+//	speaker := Speaker{
+//		"kevein",
+//		"Leo",
+//		"dev",
+//		"rd",
+//		"http://test.jsp",
+//		"http://test.jsp",
+//		"",
+//		"",
+//	}
+//	speakers.Speakers = []Speaker{speaker}
+//	result, _ := json.Marshal(speakers)
+//	fmt.Println(string(result))
+//}
