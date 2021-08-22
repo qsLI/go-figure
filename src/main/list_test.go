@@ -12,5 +12,5 @@ func main() {
 		l.PushBack(i)
 	}
 
-	fmt.Println(l)
+	fmt.Println(l.Front())
 }

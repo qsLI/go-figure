@@ -1,8 +1,9 @@
-package main
+package goroutine
 
 import (
 	"fmt"
 	"time"
+	"testing"
 )
 
 /**
@@ -25,7 +26,7 @@ func fibonaccii(c, quit chan int) {
 }
 
 
-func main() {
+func TestSelectChannel(t *testing.T) {
 
 	c := make(chan int)
 	quit := make(chan int)

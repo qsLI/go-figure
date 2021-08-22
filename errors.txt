@@ -1,0 +1,2 @@
+ERROR: 2021/08/23 00:42:21 logger.go:37: something has failed
+ERROR: 2021/08/23 00:42:30 logger.go:37: something has failed

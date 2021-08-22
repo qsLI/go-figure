@@ -1,9 +1,10 @@
-package main
+package goroutine
 
 import (
 	"sync"
 	"time"
 	"fmt"
+	"testing"
 )
 
 type SafeCounter struct {
@@ -26,7 +27,7 @@ func (c *SafeCounter) Value(key string) int {
 	return c.v[key]
 }
 
-func main() {
+func TestMutex(t *testing.T) {
 
 	c := SafeCounter{v: make(map[string]int)}
 	for i := 0; i < 1000; i++ {

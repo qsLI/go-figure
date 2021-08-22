@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"golang.org/x/tour/wc"
 	"strings"
+	"testing"
 )
 
 type vertex struct {
@@ -37,7 +38,7 @@ var m3 = map[string]vertex{
 	},
 }
 
-func main() {
+func TestMap(t *testing.T) {
 	m = make(map[string]vertex)
 	m["Bell Labs"] = vertex{
 		40.68433, -74.39967,
@@ -62,11 +63,10 @@ func main() {
 
 	/**
 	通过双赋值检测某个键存在：
+	elem, ok = m[key]
+	如果 key 在 m 中， ok 为 true。否则， ok 为 false，并且 elem 是 map 的元素类型的零值。
 
-elem, ok = m[key]
-如果 key 在 m 中， ok 为 true。否则， ok 为 false，并且 elem 是 map 的元素类型的零值。
-
-同样的，当从 map 中读取某个不存在的键时，结果是 map 的元素类型的零值。
+	同样的，当从 map 中读取某个不存在的键时，结果是 map 的元素类型的零值。
 	 */
 	v, ok := answerMap["Answer"]
 	fmt.Println("The value:", v, "Present? ", ok)

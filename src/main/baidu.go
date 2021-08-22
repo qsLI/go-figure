@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/url"
 	"net/http"
 	"log"
 	"fmt"

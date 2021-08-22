@@ -1,10 +1,11 @@
-package main
+package goroutine
 
 import (
 	"math/rand"
 	"time"
 	"sync"
 	"fmt"
+	"testing"
 )
 
 func init() {
@@ -13,7 +14,7 @@ func init() {
 
 var wwg sync.WaitGroup
 
-func main() {
+func TestChannel(t *testing.T) {
 
 	court := make(chan int)
 

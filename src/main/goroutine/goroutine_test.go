@@ -1,8 +1,9 @@
-package main
+package goroutine
 
 import (
 	"time"
 	"fmt"
+	"testing"
 )
 
 func say(s string) {
@@ -35,7 +36,7 @@ func fibonaccci(n int, c chan int) {
 	close(c)
 }
 
-func main() {
+func TestGoRoutine(t *testing.T) {
 	/**
 		开启一个新的 goroutine 执行
 	 */
@@ -61,6 +62,7 @@ func main() {
 
 	fmt.Println(x, y, x+y)
 
+	// buffered
 	c2 := make(chan int, 10)
 	go fibonaccci(cap(c2), c2)
 	// 会不断从 channel 接收值，直到它被关闭。

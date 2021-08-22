@@ -6,8 +6,6 @@ import (
 	"fmt"
 )
 
-
-
 func main() {
 	user := User{
 		"kevin leo",

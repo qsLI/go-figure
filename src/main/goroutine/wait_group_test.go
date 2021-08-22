@@ -1,10 +1,11 @@
-package main
+package goroutine
 
 import (
 	"sync"
 	"fmt"
 	"sync/atomic"
 	"runtime"
+	"testing"
 )
 
 var (
@@ -12,7 +13,7 @@ var (
 	wg sync.WaitGroup
 )
 
-func main() {
+func TestCounter(t *testing.T) {
 	wg.Add(2)
 
 	go incCounter(1)
@@ -33,7 +34,7 @@ func incCounter(id int) {
 		atomic.AddInt64(&counter, 1)
 
 		/**
-		当前goroutine从线程推出, 并放回到队列
+			当前goroutine从线程推出, 并放回到队列
 		 */
 		runtime.Gosched()
 	}

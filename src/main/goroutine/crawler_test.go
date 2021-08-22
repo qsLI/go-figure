@@ -1,8 +1,12 @@
-package main
+package goroutine
 
 import (
 	"fmt"
 	"time"
+	"testing"
+	"strings"
+	"strconv"
+	"runtime"
 )
 
 type Fetcher interface {
@@ -23,14 +27,25 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 		return
 	}
 
-	fmt.Printf("found: %s %q\n", url, body)
+	fmt.Printf("[%d] found: %s %q\n", goid(), url, body)
 	for _, u := range urls {
 		go Crawl(u, depth-1, fetcher)
 	}
 	return
 }
 
-func main() {
+func goid() int {
+	var buf [64]byte
+	n := runtime.Stack(buf[:], false)
+	idField := strings.Fields(strings.TrimPrefix(string(buf[:n]), "goroutine "))[0]
+	id, err := strconv.Atoi(idField)
+	if err != nil {
+		panic(fmt.Sprintf("cannot get goroutine id: %v", err))
+	}
+	return id
+}
+
+func TestFakeFetcher(t *testing.T) {
 	Crawl("http://golang.org/", 4, fetcher)
 	time.Sleep(time.Second)
 }

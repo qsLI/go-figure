@@ -1,14 +1,14 @@
 package main
 
-
 import (
 	"golang.org/x/tour/pic"
 	"math"
 	"fmt"
 	"strings"
+	"testing"
 )
 
-func main() {
+func TestSlice(t *testing.T) {
 	/**
 	[]T 是一个元素类型为 T 的 slice。
 	 */
@@ -18,12 +18,11 @@ func main() {
 	fmt.Println(slice2)
 
 	/**
-	len(s) 返回 slice s 的长度。
+		len(s) 返回 slice s 的长度。
 	 */
 	for i := 0; i < len(s); i++ {
 		fmt.Printf("s[%d] == %d\n", i, s[i])
 	}
-
 
 	// Create a tic-tac-toe board.
 	game := [][]string{
@@ -68,29 +67,55 @@ func main() {
 	z = append(z, 2, 3, 4)
 	printSlice("z", z)
 
-	// for循环的range格式
-	var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
-	for i, v := range pow {
-		fmt.Printf("2**%d = %d\n", i, v)
-	}
-
-	// 可以通过赋值给 _ 来忽略序号和值。
-	for _, v := range pow {
-		fmt.Printf("%d\n", v)
-	}
-
-	// 如果只需要索引值，去掉 “ , value ” 的部分即可。
-	for i := range pow {
-		fmt.Printf("%d\n", i)
-	}
-
 	smallPic := Pic(4, 4)
 	for i, v := range smallPic {
-		printSlice2(string(i), v)
+		printSlice2(fmt.Sprint(i), v)
 	}
 
 	pic.Show(Pic)
 
+}
+
+func TestSliceReference(t *testing.T) {
+	names := [4]string{
+		"John",
+		"Paul",
+		"George",
+		"Ringo",
+	}
+	fmt.Println(names)
+
+	a := names[0:2]
+	b := names[1:3]
+	fmt.Println(a, b)
+
+	// 修改底层的slice
+	b[0] = "XXX"
+	// [John XXX] [XXX George]
+	fmt.Println(a, b)
+	// [John XXX George Ringo]
+	fmt.Println(names)
+}
+
+func TestInit(t *testing.T) {
+	q := []int{2, 3, 5, 7, 11, 13}
+	fmt.Println(q)
+
+	r := []bool{true, false, true, true, false, true}
+	fmt.Println(r)
+
+	s := []struct {
+		i int
+		b bool
+	}{
+		{2, true},
+		{3, false},
+		{5, true},
+		{7, true},
+		{11, false},
+		{13, true},
+	}
+	fmt.Println(s)
 }
 
 func Pic(dx, dy int) [][]uint8 {
