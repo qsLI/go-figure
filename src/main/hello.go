@@ -60,8 +60,6 @@ func main() {
 	fmt.Println(needFloat(Small))
 	fmt.Println(needFloat(Big))
 
-	fmt.Printf("sum of 1 to 100 = %d\n", sum(100))
-
 	result, e := sqrt(4)
 	fmt.Printf("result: sqrt of %d is %d, error=%s\n", 4, result, e)
 	result, e = sqrt(-4)
